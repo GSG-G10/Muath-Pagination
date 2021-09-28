@@ -33,16 +33,7 @@ function App() {
 
   return (
     <>
-      <header
-        style={{
-          width: "90vw",
-          margin: "auto",
-          height: "10vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
+      <header className='header'>
         <Space direction="vertical" style={{ width: "30%" }}>
           <Search
             placeholder="input search text"
@@ -52,13 +43,7 @@ function App() {
           />
         </Space>
       </header>
-      <main
-        style={{
-          height: "250vh",
-          width: "90vw",
-          margin: "auto",
-        }}
-      >
+      <main className='main'>
         {thereIsData ? (
           data.map((e) => <Image width={"25%"} src={e.url} />)
         ) : (
@@ -69,18 +54,7 @@ function App() {
         )}
       </main>
 
-      <footer
-        style={{
-          height: "10vh",
-          width: "100vw",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          position: "fixed",
-          bottom: 0,
-          background: "#FFFFFF",
-        }}
-      >
+      <footer className='footer'>
         <Pagination
           total={100}
           showTotal={(total) => `Total ${total} items`}

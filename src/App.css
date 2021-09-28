@@ -1,0 +1,23 @@
+.header {
+  width: 90vw;
+  margin: auto;
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.main {
+  height: 250vh;
+  width: 90vw;
+  margin: auto;
+}
+.footer {
+  height: 10vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  background: #FFFFFF;
+}
