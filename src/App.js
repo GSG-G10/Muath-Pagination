@@ -1,49 +1,95 @@
-import {useState,useEffect} from 'react'
-import {Card} from 'antd';
-import './App.css';
+import { useState, useEffect } from "react";
 
-const { Meta } = Card;
+import { Image, Pagination, Input, Space, Empty } from "antd";
+import "antd/dist/antd.css";
+
+import "./App.css";
+
+const { Search } = Input;
 function App() {
-  const [data,setData] = useState([])
-  const [numberOfPage,setNumberOfPage] = useState(0)
+  const [data, setData] = useState([]);
+  const [numberOfPage, setNumberOfPage] = useState(0);
+  const [search, setSearch] = useState("");
+  const [thereIsData, setThereIsData] = useState(false);
 
   useEffect(() => {
-    
-  fetch(`https://api.unsplash.com/search/collections?page=${numberOfPage}&limit=50&query=cat&client_id=kQ_rA8Dd9Tb-JZ80Nx6RyFBtaoIFyaP5kdLn5EmGkVM`)
-  .then((res) => res.json())
-  .then((data) => data.results)
-  .then((result) => {
-    console.log(result);
-    result.map((e) => {
-      <Card 
-      hoverable
-      style={{ width: 240 }}
-      cover={<img alt="example" src={result.preview_photos[0].urls} />}
-    >
-      <Meta title="Europe Street beat" description="www.instagram.com" />
-      
-        
-      </Card>
-// preview_photos
-    })
-  })
+    setThereIsData(false);
+    fetch(
+      `https://api.unsplash.com/search/collections?page=${numberOfPage}&limit=100&query=${search}&client_id=kQ_rA8Dd9Tb-JZ80Nx6RyFBtaoIFyaP5kdLn5EmGkVM`
+    )
+      .then((res) => res.json())
+      .then((data) => data.results)
+      .then((result) =>
+        result.map((e) => {
+          setThereIsData(true);
+          return { url: e.cover_photo.urls.regular, title: "title" };
+        })
+      )
+      .then((data) => setData(data));
     return () => {
-      console.log('hi');
-    }
-  }, [numberOfPage]);
+      console.log("hi");
+    };
+  }, [numberOfPage, search]);
+
   return (
-    <div className="App">
-      
-      <Card 
-      hoverable
-      style={{ width: 240 }}
-      cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
-    >
-      <Meta title="Europe Street beat" description="www.instagram.com" />
-      
-        
-      </Card>
-    </div>
+    <>
+      <header
+        style={{
+          width: "90vw",
+          margin: "auto",
+          height: "10vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Space direction="vertical" style={{ width: "30%" }}>
+          <Search
+            placeholder="input search text"
+            enterButton="Search"
+            size="large"
+            onSearch={(v) => setSearch(v)}
+          />
+        </Space>
+      </header>
+      <main
+        style={{
+          height: "250vh",
+          width: "90vw",
+          margin: "auto",
+        }}
+      >
+        {thereIsData ? (
+          data.map((e) => <Image width={"25%"} src={e.url} />)
+        ) : (
+          <Empty
+            description="Search to find picturs"
+            image="https://image.freepik.com/free-psd/3d-female-character-looking-online-with-help-search-bar_23-2148938909.jpg"
+          />
+        )}
+      </main>
+
+      <footer
+        style={{
+          height: "10vh",
+          width: "100vw",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          position: "fixed",
+          bottom: 0,
+          background: "#FFFFFF",
+        }}
+      >
+        <Pagination
+          total={100}
+          showTotal={(total) => `Total ${total} items`}
+          defaultPageSize={20}
+          defaultCurrent={1}
+          onChange={(e) => setNumberOfPage(e)}
+        />
+      </footer>
+    </>
   );
 }
 
